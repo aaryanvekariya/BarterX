@@ -1,0 +1,20 @@
+{
+  "name": "barterx",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaryanvekariya/BarterX.git"
+  },
+  "author": "Aryan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aaryanvekariya/BarterX/issues"
+  },
+  "homepage": "https://github.com/aaryanvekariya/BarterX#readme",
+  "description": ""
+}
