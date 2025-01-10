@@ -1,0 +1,3 @@
+Request Method GET and url /about - Fri Jan 10 2025 17:02:53 GMT+0530 (India Standard Time) 
+Request Method GET and url /styles.css - Fri Jan 10 2025 17:02:53 GMT+0530 (India Standard Time) 
+Request Method GET and url /logo.png - Fri Jan 10 2025 17:02:53 GMT+0530 (India Standard Time) 
