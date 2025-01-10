@@ -1,82 +1,92 @@
-import http from 'http';
-import fs from 'fs';
-import path from 'path';
-import url from 'url';
+import http from 'http'
+import fs from 'fs'
 
-// Log requests to a file
-const logRequest = (url) => {
-    const logFilePath = path.join('log.txt');
-    const timestamp = new Date().toISOString();
-    const logMessage = `[${timestamp}] ${url}\n`;
+const PORT = 8050
+const html = fs.readFileSync('index.html')
 
-    fs.appendFile(logFilePath, logMessage, (err) => {
-        if (err) {
-            console.error('Error writing to log file:', err);
-        }
-    });
-};
-
-const server = http.createServer((req, res) => {
-    const parsedUrl = url.parse(req.url, true);
-    const urlPath = parsedUrl.pathname;
-    let response;
-
-    // Log the request
-    logRequest(urlPath);
-
-    switch (urlPath) {
-        case '/':
-            response = "Welcome to BarterX";
-            break;
-        case '/products':
-            response = "Here are the products up for Sale in BarterX";
-            break;
-        case '/login':
-            response = "Login to the BarterX";
-            break;
-        case '/signup':
-            response = "Sign up to the BarterX";
-            break;
-        case '/profile':
-            response = "Trader Profile";
-            break;
-        case '/cart':
-            response = "Your Shopping Cart is here";
-            break;
-        case '/checkout':
-            response = "Let's start shipping";
-            break;
-        case '/orders':
-            response = "Your Orders are here";
-            break;
-        case '/categories':
-            response = "Browse Categories";
-            break;
-        case '/chat':
-            response = "Your Chat with fellow Traders";
-            break;
-        case '/contact':
-            response = "Contact Us at";
-            break;
-        case '/about':
-            response = "The modern approach to trading our commodities";
-            break;
-        default:
-            response = "Page not found";
-            break;
+const server = http.createServer((req,res)=>{
+    let log =  `Request Method ${req.method} and url ${req.url} - ${new Date()} \n`
+    console.log(log)
+    fs.appendFileSync('logs.txt',log)
+    if(req.method != 'GET'){
+        // res.writeHead(405)
+        res.end('Method Not Allowed')
+        return  
     }
 
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end(response);
-});
+    switch(req.url){
+        case '/':
+            res.writeHead(200, {'Content-Type': 'text/html'})
+            res.write(html)
+            res.end()
+            break
+        case '/products':
+            res.write('Here are the products up for Sale in BarterX')
+            res.end()
+            break
+        case '/login':
+            res.write('Login to the BarterX')
+            res.end()
+            break
+        case '/signup':
+            res.write('Sign up to the BarterX')
+            res.end()
+            break
+        case '/profile':
+            res.write('Trader Profile')
+            res.end()
+            break
+        case '/cart':
+            res.write('Your Shopping Cart is here')
+            res.end()
+            break
+        case '/checkout':
+            res.write("Lets' start shipping")
+            res.end()
+            break
+        case '/orders':
+            res.write('Your Orders are here')
+            res.end()
+            break
+        case '/categories':
+            res.write('Browse Categories')
+            res.end()
+            break
+        case '/chat':
+            res.write('Your Chat with fellow Traders')
+            res.end()
+            break
+        case '/contact':
+            res.write('Contact Us at')
+            res.end()
+            break
+        case '/about':
+            let about =  fs.readFileSync('about.html')
+            res.writeHead(200, {'Content-Type': 'text/html'})
+            res.write(about)
+            res.end()
+            break
+        case '/api/products':
+            let api = [
+                { "id": 1, "name": "Used Laptop", "price": 300 },
+                { "id": 2, "name": "Second-hand Bicycle", "price": 50 }
+            ]
+            res.writeHead(200, {'Content-Type': 'application/json'})
+            res.write(JSON.stringify(api))
+            res.end()
+            break
+        default:
+            let error_json = {
+                "error": "Page not found",
+                "statusCode": 404
+            }
+            res.writeHead(404,{'content-type':'application/json'})
+            res.write(JSON.stringify(error_json))
+            res.end()
+            break
+    }
+})
 
-const port = 8050;
-
-server.listen(port, () => {
-    console.log(`Server initiated on port ${port}...`);
-    console.log(`http://localhost:${port}`);
-});
-
-
-
-
+server.listen(PORT, () => {
+  console.log(`listening on http://localhost:${PORT}`)
+})
